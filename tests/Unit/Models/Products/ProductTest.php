@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\Products;
 use Tests\TestCase;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\ProductVariation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductTest extends TestCase
@@ -32,6 +33,17 @@ class ProductTest extends TestCase
         );
 
         $this->assertInstanceOf(Category::class, $product->categories->first());
+    }
+
+    public function test_it_has_many_variations()
+    {
+        $product = Product::factory()->create();
+
+        $product->variations()->save(
+            ProductVariation::factory()->create()
+        );
+
+        $this->assertInstanceOf(ProductVariation::class, $product->variations->first());
 
     }
 }

@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::withScopes($this->scopes(),)->paginate(10);
+        $products = Product::withScopes($this->scopes())->paginate(10);
         return ProductIndexResource::collection($products);
     }
     public function show(Product $product)

@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasPrice;
 use App\Models\ProductVariation;
-use App\Scoping\Scoper;
+use App\Models\Traits\CanBeScoped;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory;
-    protected $fillable = [
-        'name',
-        'slug',
-        'price',
-        'description',
-    ];
+    use HasFactory, CanBeScoped, HasPrice;
+
     public function getRouteKeyName()
     {
         return 'slug';
@@ -27,14 +22,9 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    public function scopeWithScopes(Builder $builder, $scopes = [])
-    {
-        return (new Scoper(request()))->apply($builder,$scopes );
-    }
     public function variations()
     {
         return $this->HasMany(ProductVariation::class)->orderBy('order','asc');
     }
-
 
 }

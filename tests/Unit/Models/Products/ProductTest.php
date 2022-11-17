@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models\Products;
 
+use App\Cart\Money;
 use Tests\TestCase;
 use App\Models\Product;
 use App\Models\Category;
@@ -21,7 +22,7 @@ class ProductTest extends TestCase
     {
         $product = new Product;
 
-        $this->assertEquals($product->getRouteKeyName(),'slug');
+        $this->assertEquals($product->getRouteKeyName(), 'slug');
     }
 
     public function test_it_has_many_categories()
@@ -44,7 +45,21 @@ class ProductTest extends TestCase
         );
 
         $this->assertInstanceOf(ProductVariation::class, $product->variations->first());
+    }
 
+    public function test_it_returns_a_money_for_instance_price()
+    {
+        $product = Product::factory()->create();
+
+        $this->assertInstanceOf(Money::class, $product->price);
+    }
+
+    public function test_it_returns_a_formatted_price()
+    {
+        $product = Product::factory()->create([
+            'price' => 1050
+        ]);
+
+        $this->assertEquals("EGP 10.50", $product->formattedPrice);
     }
 }
-

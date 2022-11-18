@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductVariation;
+use App\Models\Stock;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductTest extends TestCase
@@ -61,5 +62,37 @@ class ProductTest extends TestCase
         ]);
 
         $this->assertEquals("EGP 10.50", $product->formattedPrice);
+    }
+
+    public function test_it_can_if_its_in_stock()
+    {
+        $product = Product::factory()->create();
+
+        $product->variations()->save(
+            $variation = ProductVariation::factory()->create()
+        );
+
+        $variation->stocks()->save(
+            Stock::factory()->make()
+        );
+
+        $this->assertTrue($product->inStock());
+    }
+
+    public function test_it_can_get_the_stock_count()
+    {
+        $product = Product::factory()->create();
+
+        $product->variations()->save(
+            $variation = ProductVariation::factory()->create()
+        );
+
+        $variation->stocks()->save(
+            Stock::factory()->make([
+                'quantity' => $quantity = 5
+            ])
+        );
+
+        $this->assertEquals($product->stockCount(), $quantity);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\ProductVariation;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -73,5 +74,10 @@ public static function boot()
         return [];
     }
 
+    public function cart()
+    {
+        return $this->belongsToMany(ProductVariation::class, 'cart_user')
+        ->withPivot('quantity');
+    }
 
 }

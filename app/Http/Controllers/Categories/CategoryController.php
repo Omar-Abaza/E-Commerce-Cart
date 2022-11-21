@@ -10,7 +10,6 @@ class CategoryController extends Controller
 {
     public function index()
     {
-
         return CategoryResource::collection(
             Category::with('children')->parents()->ordered()->get()
         );

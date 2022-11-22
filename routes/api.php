@@ -12,7 +12,7 @@ Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
 
 
-Route::group(['prefix'=>'auth'], function(){
+Route::group(['prefix' => 'auth'], function () {
 
     Route::post('register', [RegisterController::class, 'action']);
     Route::post('login', [LoginController::class, 'action']);
@@ -20,4 +20,8 @@ Route::group(['prefix'=>'auth'], function(){
 });
 
 
-Route::resource('cart', CartController::class);
+Route::resource('cart', CartController::class, [
+    'parameters' => [
+        'cart' => 'productVariation'
+    ]
+]);

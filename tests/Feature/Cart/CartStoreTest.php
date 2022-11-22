@@ -70,7 +70,7 @@ class CartStoreTest extends TestCase
             ->assertJsonValidationErrors(['products.0.quantity']);
     }
 
-        public function test_it_requires_products_quantity_to_at_least_one()
+    public function test_it_requires_products_quantity_to_at_least_one()
     {
         $user = User::factory()->create();
         $this->jsonAs($user, 'POST', 'api/cart', [
@@ -81,7 +81,7 @@ class CartStoreTest extends TestCase
             ->assertJsonValidationErrors(['products.0.quantity']);
     }
 
-        public function test_it_add_products_to_the_users_cart()
+    public function test_it_add_products_to_the_users_cart()
     {
         $user = User::factory()->create();
 
@@ -90,10 +90,10 @@ class CartStoreTest extends TestCase
             'products' => [
                 ['id' => $product->id, 'quantity' => 1]
             ]
-            ]);
-            $this->assertDatabaseHas('cart_user',[
-                'product_variation_id' =>  $product->id,
-                'quantity' => 1
-            ]);
+        ]);
+        $this->assertDatabaseHas('cart_user', [
+            'product_variation_id' =>  $product->id,
+            'quantity' => 1
+        ]);
     }
 }
